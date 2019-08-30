@@ -1,0 +1,27 @@
+# General IXON api settings
+IXON_api:
+  api_key: ''  # Can be requested from support
+  email: ''    # Your email
+  password: '' # Your password
+
+# Camera settings
+camera:
+  auth:
+    type: digest # Auth type, options: none, basic, digest
+    password: '' # Camera's Password
+    username: '' # Camera's username
+  company_id: '' # Camera's company ID
+  webaccess_service_id: ''    #Can be found using the configuration utility, run main.py -c
+  webaccess_access_type: http #http or https
+  stream_path: ''             #Path on the camera to the actual video stream
+
+# Recording settings
+video:
+  debug_info: true  # let FFMPEG display lots of video information, best to disable after testing
+  duration: 10      # Duration of the recording in seconds
+  framerate: 10     # If framerate is not detected properly automaticaly, set it here, else: 'auto'
+  recode: true      # Should we recode to h264? CPU heavy but required for certain streams
+
+# Webhook settings
+webhooks:
+  queue_size: 10    # Maximum amount of webhook calls that can be waiting to be recorded

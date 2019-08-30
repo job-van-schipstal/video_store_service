@@ -1,0 +1,11 @@
+# Project configuration
+config.yml
+
+# Python venv
+venv
+
+# Misc
+__pycache__
+*.pyc
+.idea
+.mypy_cache
