@@ -17,7 +17,8 @@ The IXON api provides advanced functionality but remains easy to use and quick t
 
 Many of these kinds of little projects can quickly be built!
 
-
+![alt text](/Overview.png)
+Overview image, light blue is the existing platform and the dark blue is the scope of this project
 
 ## Installation
 
@@ -32,8 +33,9 @@ Then clone the repository:
 
 ```$ git clone https://github.com/job-van-schipstal/video_store_service.git```
 
-now open the directory and install the last of the dependencies using pip:
+now open the repository directory and install the last of the dependencies using pip:
 
+```$ cd video_store_service```<br>
 ```$ pip install -r requirements.txt```
 
 ## Configuration:
@@ -44,32 +46,83 @@ Configuration happens through the config.yaml file
 <br>
 <b>General IXON api settings</b><br>
 IXON_api:<br>
- -api_key: Can be requested from support<br>
- -email: Your email<br>
- -password: Your password<br>
+ - api_key: Can be requested from support<br>
+ - email: Your email<br>
+ - password: Your password<br>
 <br>
 <b>Camera settings</b><br>
 camera:<br>
-  -auth:<br>
-    --type: Auth type, options: none, basic, digest<br>
-    --password: Camera's Password<br>
-    --username: Camera's username<br>
-  -company_id: Camera's company ID<br>
- -webaccess_service_id: Can be found using the configuration utility, run main.py -c<br>
- -webaccess_access_type: http or https<br>
- -stream_path: Path on the camera to the actual video stream<br>
+- auth:<br>
+  --- type: Auth type, options: none, basic, digest<br>
+  --- password: Camera's Password<br>
+  --- username: Camera's username<br>
+- company_id: Camera's company ID<br>
+- webaccess_service_id: Can be found using the configuration utility, run main.py -c<br>
+- webaccess_access_type: http or https<br>
+- stream_path: Path on the camera to the actual video stream<br>
 <br>
 <b>Recording settings</b><br>
 video:<br>
- -debug_info: true:  let FFMPEG display lots of video information, best to disable after testing<br>
- -duration: 10:      Duration of the recording in seconds<br>
- -framerate: 10:     If framerate is not detected properly automaticaly, set it here, else: 'auto'<br>
- -recode: true:      Should we recode to h264? CPU heavy but required for certain streams<br>
+ - debug_info: true:  let FFMPEG display lots of video information, best to disable after testing<br>
+ - duration: 10:      Duration of the recording in seconds<br>
+ - framerate: 10:     If framerate is not detected properly automaticaly, set it here, else: 'auto'<br>
+ - recode: true:      Should we recode to h264? CPU heavy but required for certain streams<br>
 <br>
 <b>Webhook settings</b><br>
 webhooks:<br>
- -queue_size: 10:    Maximum amount of webhook calls that can be waiting to be recorded<br>
+ - queue_size: 10:    Maximum amount of webhook calls that can be waiting to be recorded<br>
 </details>
+
+Simply copy over the template:
+
+```$ cp config.yml.template config.yml```
+
+And configure the Video Store Service.
+
+The IXON api key can be requested from support, they can provide you with the documentaion on the api as well.
+
+After you have filled in the api key and your username and password,
+to configure the webaccess_service_id there is an included configuration utility, 
+as this id cannot be seen in the normal user interface. Simply run, from the root of this repository:
+
+```$ python -m video_store_service -c```
+
+
+## Usage
+
+Video's are stored in the Videos folder, running the Video Store Service is done from the commandline, 
+see usage page below:
+
+```
+Usage: python -m video_store_service [-h] [-c] [-t] [-w] [-p PORT] [-d]
+
+IXON Video Store Service
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -c, --configure       Opens configuration utility. A short wizard to help
+                        you configure this module.
+  -t, --test-recording  Immediately record, as if the webhook was called.
+                        Useful for testing the recording settings.
+  -w, --webhook         Enable webhook listener
+  -p PORT, --port PORT  Webhook listener port (default: 8080)
+  -d, --debug           Enable debugging information
+```
+
+<b>Configuration utility:</b>
+
+Simple command line wizard that helps you find the webaccess public id
+
+<b>Test Recording:</b>
+
+Start recording without needing a webhook to trigger, usefull to test if you have setup everything correctly
+
+<b>Webhook Listener:</b>
+
+Uses the Flask micro-framework to listen for webhooks on ```/webhook```.
+The internal webserver is not to be used in a actual deployment. in that case use something like uWSGI, optionally with nginx or apache in front of that. If you have installed uWSGI, you could run this app under uWSGI with the following command (ran from repository root):
+
+```$ uwsgi --socket 0.0.0.0:<Port> --protocol=http -w wsgi:app```
 
 ## License
 
