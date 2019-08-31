@@ -67,6 +67,8 @@ def run_configuration_utility(config: Dict[str, Any], client: apiclient.Client):
     # Get user choice
     print('= Select Company, enter the index in front of it')
     company = get_user_choice(reply)
+
+    # Add it to the config
     config['camera']['company_id'] = company
 
     # Add company to header for next request
@@ -95,13 +97,18 @@ def run_configuration_utility(config: Dict[str, Any], client: apiclient.Client):
     print('= Select Webaccess service, enter the index in front of it')
     webaccess = get_user_choice(agent_list.json())
 
+    # Add it to the config
+    config['camera']['webaccess_service_id'] = webaccess
+
     print('Finished')
-    print(f'You have selected: company-id: {company}, webaccess: {webaccess}')
+    print(f'You have selected: company_id: {company}, webaccess_service_id: {webaccess}')
     choice = input('Save these in config? (removes comments, manual may be preferred) (y/n) ')
     if choice in ('y', 'Y', 'yes', 'Yes'):
         with open('config.yml', 'w') as config_file:
             yaml.dump(config, config_file, default_flow_style=False)
         print('Saved values')
+    else:
+        print('Values were not saved, retry or type them in manually')
     print('You will still have to configure, if you haven\'t already:')
     print('- The http, access method: http, or https')
     print('- The login credentials, if required')
