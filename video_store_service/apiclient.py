@@ -65,7 +65,7 @@ class Client():
                 return link.get('href')
         raise ValueError(f'The rel {rel} was not found')
 
-    def get_auth_header(self, company_id: str = None) -> Dict[str, Any]:
+    def get_auth_header(self, company_id: str = None) -> Dict[str, str]:
         """
         Authenticates to the IXON api and generates full header
         :param company_id: Optional: ID of the company the camera is in
