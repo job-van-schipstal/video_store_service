@@ -18,7 +18,7 @@ The IXON api provides advanced functionality but remains easy to use and quick t
 Many of these kinds of little projects can quickly be built!
 
 ![alt text](/Overview.png)
-Overview image, light blue is the existing platform and the dark blue is the scope of this project
+Overview image, light blue is the IXON platform and the dark blue is the scope of this project
 
 ## Installation
 
